@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Timer from './PR-Timer/Timer/Components/Timer';
+import Timer from './Timer/Components/Timer';
 
 
 function App() {
