@@ -1,12 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
-import Event from './PR-Input/Components/Event.jsx';
+import Review from './PR-CommentReview/Components/Review';
 
 
 function App() {
   return (
     <>
-      <Event />
+      <Review />
     </>
   );
 }
