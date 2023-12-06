@@ -92,7 +92,7 @@ export default function Review() {
                                 <img src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png" />
                             </div>
                             <div className="reviewer">
-                                <h2>{e.name}<p className="reviewdate">{d} / {m} / {y}</p></h2>
+                                <h2>{e.name}<p className="reviewdate">{d < 9 ? '0' + d : d} / {m < 9 ? '0' + m : m} / {y}</p></h2>
                                 <p className="mb-1">{e.email}
                                 </p>
                                 <p>{Array.from(Array(+e.rating).keys()).map((r, i) => {
