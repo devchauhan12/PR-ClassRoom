@@ -28,16 +28,16 @@ textarea,
 select {
     position: relative;
     width: 100%;
-    padding: 20px 10px 10px;
+    padding: 10px;
     background: transparent;
     outline: none;
-    box-shadow: none;
-    border: none;
-    color: #23242a;
+    color: #fff;
     font-size: 1em;
+    border-radius: 15px;
     letter-spacing: 0.05em;
     transition: 0.5s;
     z-index: 10;
+    border: 2px solid hsla(217 100% 56% / 1)
 }
 
 .inputbox span {
@@ -45,28 +45,11 @@ select {
     left: 0;
     padding: 20px 10px 10px;
     font-size: 1em;
-    color: #8f8f8f;
     letter-spacing: 00.05em;
     transition: 0.5s;
     pointer-events: none;
-    z-index: 55;
-}
-
-.inputbox input:focus~span {
     color: hsla(217 100% 56% / 1);
-    transform: translateX(-10px) translateY(-34px);
-    font-size: 0, 75em;
-}
-.inputbox select{
-    color: #8f8f8f;
-}
-
-.inputbox input:focus {
-    color: #fff;
-}
-
-.inputbox input:not(:focus) {
-    color: black;
+    transform: translateY(-42px);
 }
 
 textarea {
@@ -76,29 +59,6 @@ textarea {
 
 textarea::-webkit-scrollbar {
     display: none;
-}
-
-.inputbox textarea:focus~span {
-    color: hsla(217 100% 56% / 1);
-    transform: translateX(-10px) translateY(-45px);
-    font-size: 0, 75em;
-}
-
-.inputbox textarea:focus {
-    color: #fff;
-}
-
-.inputbox textarea:not(:focus) {
-    color: black;
-}
-
-.inputbox i {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background-image: linear-gradient(325deg, hsla(217 100% 56% / 1) 0%, hsla(194 100% 69% / 1) 55%, hsla(217 100% 56% / 1) 90%);
 }
 
 button {

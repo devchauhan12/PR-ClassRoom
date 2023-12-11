@@ -1,11 +1,11 @@
 import './App.css';
-import Review from './PR-CommentReview/Components/Review';
+import LocalStorage from './PR-LocalStorage/Components/LocalStorage';
 
 
 function App() {
   return (
     <>
-      <Review />
+      <LocalStorage />
     </>
   );
 }
