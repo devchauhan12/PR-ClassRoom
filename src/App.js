@@ -1,11 +1,20 @@
 import './App.css';
-import Sorting from './PR-Sorting/Components/Sorting.jsx';
+import Product from './PR-Thunk/Component/Product.jsx';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Header from './PR-Thunk/Component/Header.jsx';
+import Cart from './PR-Thunk/Component/cart.jsx';
 
 
 
 function App() {
   return (
-    <Sorting />
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path='/' element={<Product />} />
+        <Route path='/cart' element={<Cart />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
