@@ -10,7 +10,6 @@ function SignUpForm() {
   const { login, setLogin } = useContext(authentication)
   const { logedUser, setLogedUser } = useContext(authentication)
 
-
   const initial = {
     name: '',
     email: '',
@@ -39,9 +38,12 @@ function SignUpForm() {
   }, [])
 
   const getData = async () => {
-    await axios.get("http://localhost:3001/users")
-      .then((resp) => resp.data)
-      .then((json) => setUsers(json))
+    const users = await axios.get("http://localhost:3001/users")
+      .then(async function (response) {
+        await setUsers(response.data)
+        return response.data
+      })
+    return users
   }
 
 
@@ -56,31 +58,28 @@ function SignUpForm() {
       if (existUser) {
         setUserError('Account already exists.')
       } else {
-        let newuser = {
+        await axios.post("http://localhost:3001/users", {
           name: input.name,
           email: input.email,
           password: input.password,
           cart: []
-        }
-        let done = await axios.post("http://localhost:3001/users", newuser).then(() => { getData() })
-        console.log(done)
-        setLogedUser(done)
+        })
+        const updatedUsers = await axios.get("http://localhost:3001/users")
+          .then(async function (response) {
+            await setUsers(response.data)
+            return response.data
+          })
+        let newUser = updatedUsers.filter((item) => {
+          if (item.email === input.email) {
+            axios.put('http://localhost:3001/LoggedIn', item);
+            return item
+          }
+        })
+        setLogedUser(...newUser)
         setErrors({})
         setUserError('')
         setInput(initial)
-        // setLogedUser({
-        //   name: input.name,
-        //   email: input.email,
-        //   password: input.password,
-        //   cart: []
-        // })
         setLogin(true)
-        axios.put('http://localhost:3001/LoggedIn', {
-          name: input.name,
-          email: input.email,
-          password: input.password,
-          cart: []
-        });
         navigate("/products")
       }
     }

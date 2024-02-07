@@ -12,7 +12,7 @@ const NavBar = () => {
     const { login, setLogin } = useContext(authentication)
     const { logedUser, setLogedUser } = useContext(authentication)
     const navigate = useNavigate()
-    const dispatch = useDispatch    ();
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
         setLogin(false);

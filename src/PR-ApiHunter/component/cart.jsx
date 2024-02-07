@@ -43,10 +43,9 @@ function Cart() {
     }
     const deleteAll = async () => {
         UserCart.cart = []
-        await setLogedUser(UserCart)
+        setLogedUser(UserCart)
         dispatch(deleteItem());
-        console.log(UserCart)
-        // await axios.put(`http://localhost:3001/users/${logedUser.id}`, UserCart);
+        await axios.put(`http://localhost:3001/users/${logedUser.id}`, UserCart);
         await axios.put(`http://localhost:3001/LoggedIn`, UserCart);
     }
     return (
@@ -96,7 +95,6 @@ function Cart() {
                         <th>₹ {tp}</th>
                         <th>
                             <button type="submit" onClick={deleteAll} className="border-0">
-                                {/* <button type="submit" onClick={() => console.log(cart)} className="border-0"> */}
                                 Clear All
                             </button>
                         </th>

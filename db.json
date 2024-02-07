@@ -20,19 +20,7 @@
       "email": "neel@gmail.com",
       "password": "123456",
       "cart": []
-    },
-    {
-      "id": "cdb9",
-      "name": "New Swing",
-      "email": "jayadfv@gmail.com",
-      "password": "sadvadsv",
-      "cart": []
     }
   ],
-  "LoggedIn": {
-    "name": "New Swing",
-    "email": "jayadfv@gmail.com",
-    "password": "sadvadsv",
-    "cart": []
-  }
+  "LoggedIn": {}
 }
