@@ -1,15 +1,43 @@
-import React, { useState } from 'react'
-import '../Assets/Product.css'
+import React, { useContext, useEffect } from 'react'
+import '../assets/Product.css'
 import { Container, Row, Card, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { add } from '../Redux/Action'
+import { add, getCart } from '../redux/Action'
+import { authentication } from './layout'
+import { useNavigate } from 'react-router'
+import axios from 'axios'
 
-export default function Product() { 
+export default function Product() {
+
 
     const products = useSelector((state) => state.products)
+    const { logedUser, setLogedUser } = useContext(authentication)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const handleAdd = (id) => {
-        dispatch(add(id));
+
+    const handleAdd = async (id) => {
+        if (logedUser) {
+            const currentUser = await axios.get(`http://localhost:3001/LoggedIn`).then((resp) => resp.data)
+            let cart = [...products]
+
+            const check = currentUser.cart.some(e => {
+                if (e.title === cart[id].title) {
+                    e.qty += 1;
+                    return true
+                }
+            })
+            if (!check) {
+                cart = [{ ...cart[id], qty: 1 }]
+                currentUser.cart.push(...cart)
+            }
+
+            await axios.put(`http://localhost:3001/users/${logedUser.id}`, currentUser);
+            await axios.put(`http://localhost:3001/LoggedIn`, currentUser);
+            setLogedUser(currentUser)
+            dispatch(add(id));
+        } else {
+            navigate('/login')
+        }
     }
 
     return (

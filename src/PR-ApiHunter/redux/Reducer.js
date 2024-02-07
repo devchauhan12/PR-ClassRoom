@@ -1,6 +1,6 @@
-import img1 from '../Assets/Images/nike-shoes.png'
-import img2 from '../Assets/Images/adidas-campus.png'
-import img3 from '../Assets/Images/Puma.png'
+import img1 from '../assets/Images/nike-shoes.png'
+import img2 from '../assets/Images/adidas-campus.png'
+import img3 from '../assets/Images/Puma.png'
 
 const initial = {
     products: [
@@ -32,7 +32,8 @@ const initial = {
     cart: []
 }
 
-const processor = (state = initial, action) => {
+
+const Reducer = (state = initial, action) => {
     let tempCart = [...state.cart]
     switch (action.type) {
         case 'addItem':
@@ -60,9 +61,11 @@ const processor = (state = initial, action) => {
         case 'increment':
             tempCart[action.payload].qty++;
             return { ...state, cart: tempCart };
+        case 'getCart':
+            return { ...state, cart: action.payload };
         case 'decrement':
             tempCart[action.payload].qty--;
-            if (tempCart[action.payload].qty == 0) { tempCart.splice([action.payload], 1) }
+            if (tempCart[action.payload].qty === 0) { tempCart.splice([action.payload], 1) }
             return { ...state, cart: tempCart };
         case 'delete':
             tempCart = [];
@@ -72,4 +75,4 @@ const processor = (state = initial, action) => {
     }
 }
 
-export default processor
+export default Reducer

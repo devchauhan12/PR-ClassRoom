@@ -8,6 +8,15 @@ export const add = (id) => {
     }
 }
 
+export const getCart = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'getCart',
+            payload: data,
+        })
+    }
+}
+
 export const incrementItem = (id) => {
     return (dispatch) => {
         dispatch({

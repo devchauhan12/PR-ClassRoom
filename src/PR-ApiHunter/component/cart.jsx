@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { decrementItem, deleteItem, incrementItem } from '../Redux/Action';
+import { decrementItem, deleteItem, getCart, incrementItem } from '../redux/Action';
+import { authentication } from './layout';
+import axios from 'axios';
 
 function Cart() {
     const cart = useSelector((state) => state.cart)
+    const { logedUser, setLogedUser } = useContext(authentication)
+    const dispatch = useDispatch();
+    let UserCart = logedUser
+    useEffect(() => {
+        getUserCart()
+    }, [])
+
+    const getUserCart = async () => {
+        const currentUser = await axios.get(`http://localhost:3001/LoggedIn`).then((resp) => resp.data)
+        dispatch(getCart(currentUser.cart))
+    }
 
     let tq = 0;
     let tp = 0;
@@ -13,16 +26,28 @@ function Cart() {
         tp += item.qty * item.price;
     });
 
-
-    const dispatch = useDispatch()
-    const decreaseQuantity = (id) => {
+    const decreaseQuantity = async (id) => {
+        UserCart.cart[id].qty--
+        if (UserCart.cart[id].qty === 0) { UserCart.cart.splice([id], 1) }
+        setLogedUser(UserCart)
         dispatch(decrementItem(id));
+        await axios.put(`http://localhost:3001/users/${logedUser.id}`, UserCart);
+        await axios.put(`http://localhost:3001/LoggedIn`, UserCart);
     }
-    const increaseQuantity = (id) => {
+    const increaseQuantity = async (id) => {
+        UserCart.cart[id].qty++
+        setLogedUser(UserCart)
         dispatch(incrementItem(id));
+        await axios.put(`http://localhost:3001/users/${logedUser.id}`, UserCart);
+        await axios.put(`http://localhost:3001/LoggedIn`, UserCart);
     }
-    const deleteAll = () => {
+    const deleteAll = async () => {
+        UserCart.cart = []
+        await setLogedUser(UserCart)
         dispatch(deleteItem());
+        console.log(UserCart)
+        // await axios.put(`http://localhost:3001/users/${logedUser.id}`, UserCart);
+        await axios.put(`http://localhost:3001/LoggedIn`, UserCart);
     }
     return (
         <div>
@@ -52,17 +77,8 @@ function Cart() {
                                 >
                                     -
                                 </button>
-                                <input
-                                    type="number"
-                                    className="text-center"
-                                    name="quantity"
-                                    value={item.qty}
-                                    disabled
-                                />
-                                <button
-                                    onClick={() => increaseQuantity(index)}
-                                    className="border-0 bg-dark text-white"
-                                >
+                                <input type="number" className="text-center w-25" name="quantity" value={item.qty} disabled />
+                                <button onClick={() => increaseQuantity(index)} className="border-0 bg-dark text-white">
                                     +
                                 </button>
                             </td>
@@ -80,6 +96,7 @@ function Cart() {
                         <th>₹ {tp}</th>
                         <th>
                             <button type="submit" onClick={deleteAll} className="border-0">
+                                {/* <button type="submit" onClick={() => console.log(cart)} className="border-0"> */}
                                 Clear All
                             </button>
                         </th>
